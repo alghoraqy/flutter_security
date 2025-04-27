@@ -40,7 +40,7 @@ class _MainAppState extends State<MainApp> {
               onPressed: () {
                 sl<ISecureStorageManager>().setData(key: 'token', value: '12345678');
               },
-              child: Text('Set Data'),
+              child: Text('Set Dat'),
             ),
           ],
         ),
