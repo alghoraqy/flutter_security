@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_security/dp.dart';
 import 'package:flutter_security/secure_storage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await DependencyInjectionServices.diInit();
+  await dotenv.load(fileName: ".env");
   runApp(const MainApp());
 }
 
@@ -21,7 +24,7 @@ class _MainAppState extends State<MainApp> {
     super.initState();
   }
 
- Future getData() async {
+  Future getData() async {
     final data = await sl<ISecureStorageManager>().getData(key: 'token');
     print('Data: $data');
   }
@@ -41,6 +44,15 @@ class _MainAppState extends State<MainApp> {
                 sl<ISecureStorageManager>().setData(key: 'token', value: '12345678');
               },
               child: Text('Set Dat'),
+            ),
+            MaterialButton(
+              onPressed: () {
+                final apiBaseUrl = dotenv.env['API_BASE_URL'];
+                print('API BASE URL: $apiBaseUrl');
+                print('${dotenv.env['ESCAPED_DOLLAR_SIGN']}');
+                print('${dotenv.env['FOOBAR']}');
+              },
+            child: Text('Print API BASE URL'),
             ),
           ],
         ),
